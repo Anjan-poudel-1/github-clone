@@ -1,0 +1,19 @@
+.listheader{
+    height: 50px;
+    border-bottom: 2px solid #f1f3f6;
+    width: 1200px;
+    display: flex;
+    justify-content: space-between;
+}
+.checkbox{
+    margin-right: 20px;
+}
+.listheader,.section_a,.section_b,.checkbox{
+    display: flex;
+    align-items: center;
+}
+.section_b{
+    color: gray;
+    display: flex;
+    color:#8a8a8a
+}

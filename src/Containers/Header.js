@@ -8,6 +8,8 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AppsIcon from '@material-ui/icons/Apps';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
+import {Link} from 'react-router-dom'
+
 const useStyles = makeStyles((theme)=>({
 header:{
     width: '100%',
@@ -64,7 +66,7 @@ function Header() {
           <MenuIcon />
              </IconButton>
              <div className={classes.logo} style={{marginLeft:'5px'}}>
-             <img src={gmailImage}/>
+        <Link to="/">  <img src={gmailImage}/></Link>   
              </div>
             
             </div>

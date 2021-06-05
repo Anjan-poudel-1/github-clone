@@ -1,0 +1,41 @@
+.Inbox_header{
+
+    display: flex;
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid rgba(211, 211, 211, 0.651);
+align-items: center;
+}
+.InboxNav{
+    display: flex;
+    align-items: center;
+   width: 250px;
+   color: rgb(54, 54, 54);
+   opacity: 0.9;
+   transition: 0.2s ease;
+  height: 100%;
+  padding-left: 20px;
+  cursor: pointer;
+}
+.red{
+    color: rgb(216, 0, 0);
+    border-bottom: 3px solid rgb(216, 0, 0);  
+}
+.blue{
+    color: #1A73E8;
+    border-bottom: 3px solid #1A73E8;  
+}
+.green{
+    color: green;
+    border-bottom: 3px solid green;  
+}
+.InboxNav:hover{
+    background-color: rgb(233, 233, 233);
+   opacity: 1;
+    }
+ .nav-div{
+     height: 100%;
+ }   
+   
+    
+        
