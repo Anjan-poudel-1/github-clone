@@ -16,9 +16,9 @@ import CallIcon from '@material-ui/icons/Call';
 import Chip from '../Components/Chip'
 import {Link} from 'react-router-dom'
 import Plus from '../images/plus.png'
-
+import {showForm} from '../Redux/ActionCreactor'
+import {useDispatch} from 'react-redux'
 const useStyles = makeStyles((theme)=>({
-
     sidebar:{
        paddingTop:'15px',
         width:'260px',
@@ -59,7 +59,17 @@ const useStyles = makeStyles((theme)=>({
         },
         my_desc:{
         display:'flex',
-        alignItems:'center'
+        alignItems:'center',
+        position:'relative'
+},
+online:{
+position: 'absolute',
+height:'10px',
+width:'10px',
+backgroundColor:'#35AC19',
+borderRadius:'50%',
+top:'22px',
+left:'22px'
 },
 pagination:{
 width: '150px',
@@ -88,22 +98,37 @@ icon_foot:{
 },
 link:{
         textDecoration:'none'
+},
+avatar:{
+        marginRight:'5px',
+        height:"30px",
+    width:'30px',
+    borderRadius:'50%',
+backgroundPosition:'center',
+backgroundRepeat:'no-repeat',
+backgroundSize:'cover',
+
+
 }
         
     
 }));
-function Sidebar() {
+function Sidebar({user}) {
     const classes = useStyles();
-
+     const dispatch = useDispatch();   
     const [selectedNav,setNavSelected] = useState(1);
     const onNavChange = (id)=>{
-            console.log("clickes")
+            console.log("clicked")
         setNavSelected(id);
+    }
+
+    let composeMail = ()=>{
+                dispatch(showForm());
     }
 
     return (
         <div className={classes.sidebar}>
-            <button className={classes.composebtn}>
+            <button className={classes.composebtn} onClick={composeMail}>
             <img src={Plus}/> <span style={{fontSize:'15px'}}>Compose</span>
             </button>
 
@@ -141,7 +166,8 @@ function Sidebar() {
 <div className={classes.hangout_section}>
 
 <div className={classes.my_desc}>
-        <div style={{height:'30px',width:'30px',borderRadius:'50%',backgroundColor:'#f1f1f1',marginRight:'5px'}}></div>
+        <div className={classes.avatar} style={{backgroundImage:`url('${user.photoURL}')`}}></div>
+       <div className={classes.online}/>
         <span style={{display:'flex'}}> Anjan <ExpandMoreIcon style={{marginTop:'4px',fontSize:'14px'}}/></span>
 </div>
 <IconButton  aria-label="add an alarm" size='small'>

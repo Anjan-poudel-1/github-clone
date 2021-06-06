@@ -12,7 +12,7 @@ function Inbox() {
     let primarydata=[
         {person:'Anjan Poudel',title:'asdasdasda'}
         ,{person:'Andasdjan Poudel',title:'af vas asdasdasda'},
-        {person:'Madalasha chealsea karki',title:'asdsc a sasdasda'}
+       
         ];
         let Socialdata=null;
         let PromotionData=null;

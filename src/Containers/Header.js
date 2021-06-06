@@ -1,7 +1,10 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu';
-import {IconButton} from '@material-ui/core'
+import {IconButton} from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import SearchIcon from '@material-ui/icons/Search';
 import gmailImage from '../images/gmail.png'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -9,6 +12,9 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import AppsIcon from '@material-ui/icons/Apps';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import {Link} from 'react-router-dom'
+import { auth } from '../Firebase';
+import {useDispatch} from 'react-redux'
+import {usersignout} from '../Redux/ActionCreactor'
 
 const useStyles = makeStyles((theme)=>({
 header:{
@@ -53,11 +59,56 @@ rightHeader:{
 },
 margin: {
     marginRight:'2px'
+},
+avatar:{
+    height:"35px",
+    width:'35px',
+    borderRadius:'50%',
+backgroundPosition:'center',
+backgroundRepeat:'no-repeat',
+backgroundSize:'cover'
+},
+modal:{
+    padding:'15px',
+    display: 'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    flexDirection:'column'
+},
+myImage:{
+    height:"75px",
+    width:'75px',
+    borderRadius:'50%',
+backgroundPosition:'center',
+backgroundRepeat:'no-repeat',
+backgroundSize:'cover'
+},
+menuItem:{
+    marginTop:'5px',
+    border:'1px solid #808080',
+    borderRadius:'5px'
 }
-
 }));
-function Header() {
+function Header({user}) {
     const classes = useStyles();
+    const dispatch =  useDispatch();
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
+    const handleSignOut = async()=>{
+      await  auth.signOut().then(res=>{
+          console.log(res);
+          dispatch(usersignout());
+      })
+    }
+
     return (
         <div className={classes.header}>
 
@@ -103,9 +154,41 @@ function Header() {
             disableRipple
             style={{ backgroundColor: "transparent" }}>
 
-         <div className={classes.avatar} style={{height:"35px",width:'35px',borderRadius:'50%',backgroundColor:'#f1f3f4'}}>
+         <div className={classes.avatar} 
+         className={classes.avatar}
+         style={{backgroundImage:`url('${user.photoURL}')`}}
+         onClick={handleClick}
+         >
+
+
+
 
          </div>
+         <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        style={{top:'40px'}}
+      >
+      <div className={classes.modal}>
+         <div className={classes.myImage} style={{backgroundImage:`url('${user.photoURL}')`}}>
+
+        </div> 
+
+        <p style={{fontSize:'20px',fontWeight:'500',marginBottom:'0'}}>{user.displayName}</p>
+      
+      <p style={{color:'gray',fontSize:'14px',marginTop:'5px'}}>{user.email}</p>
+     
+      <MenuItem onClick={handleSignOut}
+      className={classes.menuItem}>
+          Sign out
+          </MenuItem>
+
+      </div>
+      
+      </Menu>
              </IconButton>
             </div>
         </div>

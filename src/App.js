@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Header from './Containers/Header'
 import Sidebar from './Containers/Sidebar'
 import EmailSection from './Containers/EmailSection'
@@ -10,6 +10,11 @@ import Starred from './Containers/Starred'
 import Mail from './Containers/Mail'
 import Snoozed from './Containers/Snoozed'
 import ErrorPage from './Containers/ErrorPage'
+import ComposeEmail from './Components/ComposeEmail'
+import {useDispatch,useSelector} from 'react-redux'
+import InitialPage from './Containers/InitialPage'
+import {auth} from './Firebase'
+import {userlogin} from './Redux/ActionCreactor'
 const useStyles = makeStyles((theme)=>({
 bodycomp:{
   display: 'flex'
@@ -17,14 +22,34 @@ bodycomp:{
 }));
 function App() {
   const classes= useStyles();
+  const dispatch = useDispatch();
+  const state = useSelector(state => state);
+
+  useEffect(() => {
+  
+    auth.onAuthStateChanged((person)=>{
+      console.log(person)
+      if(person){
+
+        dispatch(userlogin(person))
+      }
+    })
+
+  }, [])
+
+
   return (
     <Router>
           
    
-    <div>
-      <Header/>
+  
+
+      {!state.user?<InitialPage/>:
+      
+      <div>
+      <Header user={state.user}/>
       <div className={classes.bodycomp}>
- <Sidebar/>
+ <Sidebar user={state.user}/>
  <Switch>
    <Route exact path="/" component={Inbox}/>
    <Route path="/inbox" component={Inbox}/>
@@ -34,10 +59,12 @@ function App() {
 <Route exact path="/emails/:id" component={Mail}/>
 <Route path="*" component={ErrorPage}/>
  </Switch>
-
+<ComposeEmail/>
       </div>
   
     </div>
+      }
+      
 
     </Router>
 

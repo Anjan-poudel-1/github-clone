@@ -1,11 +1,12 @@
 import React from 'react'
 import ListHeader from '../Components/ListHeader'
-
+import Emails from './Emails';
 function Sent() {
+    const data = null;
     return (
         <div>
             <ListHeader/>
-            Sent
+            <Emails Emaildata={data} />
         </div>
     )
 }
