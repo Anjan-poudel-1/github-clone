@@ -6,6 +6,7 @@ import {useSelector,useDispatch} from 'react-redux'
 import {hideForm} from '../Redux/ActionCreactor'
 
 import {useForm} from'react-hook-form' //For validation
+import { firestore, timestamp } from '../Firebase';
 
 function ComposeEmail() {
 const state = useSelector((state) => state)
@@ -14,7 +15,7 @@ const state = useSelector((state) => state)
      const dispatch = useDispatch();
     const useStyles = makeStyles((theme)=>({
         form:{
-            visibility:state.openform?'visible':'hidden',
+        visibility:state.openform?'visible':'hidden',
         height: '500px',
         width:'550px',
         position: 'absolute',
@@ -103,9 +104,23 @@ const state = useSelector((state) => state)
 
     }
     let onFormSubmit=(data)=>{
+        const {message,subject,to} = data;
+        let emailData = {
+            message,
+            subject,
+            to,
+            from_Name:state.user.displayName,
+            from_email:state.user.email,
+            senderImage:state.user.photoURL,
+            createdAt:timestamp()
+        }
+        let emailRef = firestore.collection('Emails');
+        emailRef.add(emailData);
 console.log(data)
+
 reset();
-    }
+   
+}
     return (
         <Paper elevation={8} className={classes.form}>
             <form onSubmit={handleSubmit(onFormSubmit)}>
@@ -138,7 +153,7 @@ type="text"
  placeholder="Subject"
   name="subject"
   className={classes.input}
-  {...register('subject',{required:true})}
+  {...register('subject')}
   />
 
   

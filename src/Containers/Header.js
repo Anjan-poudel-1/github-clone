@@ -69,7 +69,7 @@ backgroundRepeat:'no-repeat',
 backgroundSize:'cover'
 },
 modal:{
-    padding:'15px',
+    padding:'15px 30px',
     display: 'flex',
     justifyContent:'center',
     alignItems:'center',

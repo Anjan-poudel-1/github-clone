@@ -15,6 +15,7 @@ import {useDispatch,useSelector} from 'react-redux'
 import InitialPage from './Containers/InitialPage'
 import {auth} from './Firebase'
 import {userlogin} from './Redux/ActionCreactor'
+import OpenMail from './Components/OpenMail'
 const useStyles = makeStyles((theme)=>({
 bodycomp:{
   display: 'flex'
@@ -56,12 +57,12 @@ function App() {
    <Route path="/sent" component={Sent}/>
    <Route path="/starred" component={Starred}/>
     <Route path="/snoozed" component={Snoozed}/>
-<Route exact path="/emails/:id" component={Mail}/>
+<Route exact path="/mail/:id" component={OpenMail}/>
 <Route path="*" component={ErrorPage}/>
  </Switch>
-<ComposeEmail/>
+
       </div>
-  
+      <ComposeEmail/>
     </div>
       }
       

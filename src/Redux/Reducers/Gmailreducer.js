@@ -1,7 +1,9 @@
 
 let initialState={
 user:null,
-openform:false
+openform:false,
+loading:false,
+emails:null
 }
 
 
@@ -28,6 +30,17 @@ switch (action.type) {
             ...state,
             user:null
         }
+    case 'LOAD_EMAIL':
+        return{
+            ...state,
+            loading:true
+        }
+     case 'EMAILS_LOADED':
+        return{
+            ...state,
+            loading:false,
+            emails:action.payload
+            }
         
 
     default: return state;

@@ -23,3 +23,16 @@ export const usersignout=()=>{
         type:'USER_LOGOUT',
     }
     }
+
+    export const SetLoading= ()=>{
+        return{
+            type:'LOAD_EMAIL'
+        }
+    }
+
+    export const EmailsLoaded = (emails)=>{
+        return{
+            type:'EMAILS_LOADED',
+            payload:emails
+        }
+    }

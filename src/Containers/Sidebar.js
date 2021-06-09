@@ -14,7 +14,7 @@ import ChatIcon from '@material-ui/icons/Chat';
 import PersonIcon from '@material-ui/icons/Person';
 import CallIcon from '@material-ui/icons/Call';
 import Chip from '../Components/Chip'
-import {Link} from 'react-router-dom'
+import {Link,useHistory} from 'react-router-dom'
 import Plus from '../images/plus.png'
 import {showForm} from '../Redux/ActionCreactor'
 import {useDispatch} from 'react-redux'
@@ -115,16 +115,38 @@ backgroundSize:'cover',
 }));
 function Sidebar({user}) {
     const classes = useStyles();
-     const dispatch = useDispatch();   
-    const [selectedNav,setNavSelected] = useState(1);
+     const dispatch = useDispatch(); 
+     let history= useHistory();
+    
+    const [selectedNav,setNavSelected] = useState(0);
     const onNavChange = (id)=>{
             console.log("clicked")
         setNavSelected(id);
     }
 
     let composeMail = ()=>{
-                dispatch(showForm());
+        dispatch(showForm());
     }
+const userName = user.displayName.split(' ');
+
+
+
+//For any path entered, we should be able to distinguish what nav section of sidebar must be clicked.
+
+
+useEffect(() => {
+        
+    console.log(history.location.pathname) 
+        const navs= ['/inbox','/starred','/snoozed','/sent']; 
+        navs.map((a,index)=>{
+                if(a===history.location.pathname){
+                        console.log(index);
+                        setNavSelected(index)   
+                }
+        })
+}, [])
+
+
 
     return (
         <div className={classes.sidebar}>
@@ -134,17 +156,20 @@ function Sidebar({user}) {
 
 <div  className={classes.sectionone}>
 
-        <Link to='/inbox'className={classes.link}  onClick={()=>onNavChange(1)}>
-            <Chip  Icon={InboxIcon} label="Inbox" selected={selectedNav===1?true:false} color='Inboxred' /> 
+{/* make an array of all pages... ani  use number to initialize jun ma xa ... /sent ma xa vane selectedNav=3 huna paryo */}
+
+
+        <Link to='/inbox'className={classes.link}  onClick={()=>onNavChange(0)}>
+            <Chip  Icon={InboxIcon} label="Inbox" selected={selectedNav===0?true:false} color='Inboxred' /> 
         </Link>  
-         <Link to='/starred' className={classes.link} onClick={()=>onNavChange(2)}>
- <Chip  Icon={StarIcon}  label="Starred" selected={selectedNav===2?true:false}/>  
+         <Link to='/starred' className={classes.link} onClick={()=>onNavChange(1)}>
+ <Chip  Icon={StarIcon}  label="Starred" selected={selectedNav===1?true:false}/>  
         </Link> 
-        <Link to='/snoozed' className={classes.link} onClick={()=>onNavChange(3)}>
-<Chip  Icon={QueryBuilderIcon} label="Snoozed" selected={selectedNav===3?true:false}/> 
+        <Link to='/snoozed' className={classes.link} onClick={()=>onNavChange(2)}>
+<Chip  Icon={QueryBuilderIcon} label="Snoozed" selected={selectedNav===2?true:false}/> 
 </Link>  
-      <Link to='/sent' className={classes.link} onClick={()=>onNavChange(4)}>
-  <Chip  Icon={SendIcon} label="Sent" selected={selectedNav===4?true:false}/>   
+      <Link to='/sent' className={classes.link} onClick={()=>onNavChange(3)}>
+  <Chip  Icon={SendIcon} label="Sent" selected={selectedNav===3?true:false}/>   
         </Link> 
       <Chip  Icon={NoteIcon} label="Drafts"/>   
       <Chip  Icon={ExpandMoreIcon} label="More"/>   
@@ -168,7 +193,7 @@ function Sidebar({user}) {
 <div className={classes.my_desc}>
         <div className={classes.avatar} style={{backgroundImage:`url('${user.photoURL}')`}}></div>
        <div className={classes.online}/>
-        <span style={{display:'flex'}}> Anjan <ExpandMoreIcon style={{marginTop:'4px',fontSize:'14px'}}/></span>
+        <span style={{display:'flex'}}>{userName[0]} <ExpandMoreIcon style={{marginTop:'4px',fontSize:'14px'}}/></span>
 </div>
 <IconButton  aria-label="add an alarm" size='small'>
         <AddIcon style={{fontSize:'22px'}}/>
